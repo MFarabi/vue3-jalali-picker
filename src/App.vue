@@ -1,18 +1,29 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
+  <!-- <div>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
     <a href="https://vuejs.org/" target="_blank">
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  </div> -->
+  <!-- <h3>Date: {{ date.toISOString }}</h3> -->
+  <DatePicker
+    v-model="date"
+    locale="fa"
+    :options="{
+      colors: { primaryColor: 'purple', textColor: 'black', grayedOutTextColor: 'gray', selectedText: 'white' },
+    }"
+  />
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import DatePicker from "./components/DatePicker.vue";
+import moment from "jalali-moment";
+
+const date = ref(moment());
+</script>
 
 <style scoped>
 .logo {

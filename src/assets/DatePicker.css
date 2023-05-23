@@ -12,20 +12,16 @@
   justify-content: space-between;
   padding: 0 0;
   color: #000000;
-
-  & > button {
-    min-width: unset !important;
-  }
-
-  & > div {
-    color: #000000;
-
-    .dark-layout & {
-      color: white;
-    }
-  }
 }
-
+.calendar-sm-header > button {
+  min-width: unset !important;
+}
+.calendar-sm-header > div {
+  color: #000000;
+}
+.dark-layout .calendar-sm-header > div {
+  color: white;
+}
 .calendar-sm-days-header div {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -40,11 +36,11 @@
   height: 36px;
   text-transform: uppercase;
 }
-
 .calendar-sm-days-body {
   max-width: 268px;
+  margin: 0 auto;
+  padding: 0;
 }
-
 .calendar-sm-days-body .crow {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -57,7 +53,6 @@
   justify-content: space-between;
   font-size: 12px;
 }
-
 .calendar-sm-days-body .crow div div span {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -76,11 +71,9 @@
   -ms-border-radius: 100%;
   -o-border-radius: 100%;
 }
-
 .calendar-sm-days-body .crow:not(:last-child) {
   margin-bottom: 6px;
 }
-
 .calendar-sm-days-body .crow div {
   display: flex;
   -webkit-box-align: center;
@@ -98,22 +91,146 @@
   -o-transition: all 0.4s;
   transition: all 0.4s;
 }
-
 .calendar-sm {
   box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
   user-select: none;
   border-radius: 5px;
   background-color: white;
-
-  .dark-layout & {
-    background-color: #2a3245;
-  }
 }
-
+.dark-layout .calendar-sm {
+  background-color: #2a3245;
+}
 .calendar-dark {
   background-color: #2a3245;
 }
-
 .pointer-on-hover:hover {
   cursor: pointer;
+}
+.calendar-sm {
+  position: absolute;
+  z-index: 450;
+  overflow: hidden;
+  min-height: 230px;
+  width: 298px !important;
+}
+.header-time-picker {
+  font-size: 12px;
+  font-weight: 500;
+  color: #505050;
+}
+.dark-layout .header-time-picker {
+  color: #cbcbcb;
+}
+.gray-day {
+  background: #9c9c9c;
+  color: white;
+}
+.other-month {
+  color: gray !important;
+}
+.red-day {
+  background: #fc6c68;
+  color: white;
+}
+.default-date {
+  background-color: #7367f0aa !important;
+}
+.date-range-start {
+  background-color: #7367f0 !important;
+}
+.date-range-end {
+  background-color: #7367f0 !important;
+}
+.gray-border-day {
+  border: 2px solid gray;
+}
+.hover-pointer:hover {
+  cursor: pointer;
+}
+.calendar-sm-days-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+.calendar-sm-days-header div {
+  text-align: center;
+}
+.calendar-sm-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 27px;
+  padding-top: 20px;
+  color: #000;
+}
+div.calendar-sm-header p.small {
+  display: none;
+  cursor: pointer;
+}
+div.calendar-sm-header:hover p.small {
+  display: inline-block;
+}
+.calendar-sm-body {
+  padding: 0 15px;
+}
+.date-range-end {
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  background-color: #dbefef;
+  width: 38px;
+  margin-right: 8px;
+}
+.date-range-start {
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  background-color: #dbefef;
+  width: 38px;
+  margin-left: 8px;
+}
+.calendar-sm-days-body .crow .div {
+  box-sizing: border-box;
+  width: 38px !important;
+  height: 38px;
+  overflow: hidden;
+}
+.range-picker-end {
+  border-bottom-right-radius: 100%;
+  border-top-right-radius: 100%;
+}
+.range-picker-start {
+  border-top-left-radius: 100%;
+  border-bottom-left-radius: 100%;
+}
+.range-picker-end-container {
+  background-color: #dbefef;
+  width: 38px;
+  margin-right: 4px;
+}
+.range-picker {
+  color: white;
+  background-color: #67bfbb;
+}
+.range-picker-span-end {
+  margin-left: 4px;
+}
+.range-picker-span-start {
+  margin-right: 4px;
+}
+
+.rotate {
+  transform: rotate(180deg);
 }

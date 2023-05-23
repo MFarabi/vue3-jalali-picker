@@ -1,155 +1,157 @@
-<template>
-  <div ref="calendar-time" class="cyp" :style="{ height }">
-    <div class="time-picker" :style="{ height }">
-      <div class="hour-container">
-        <div
-          v-for="hour in 24"
-          :key="hour"
-          class="time-indicator"
-          :class="{
-            active:
-              time.format('HH') ===
-              ((hour - 1).toString().length === 1
-                ? '0' + (hour - 1)
-                : (hour - 1).toString()),
-          }"
-          @click="hourSelected(hour - 1)"
-        >
-          {{ (hour - 1).toString().length === 1 ? '0' + (hour - 1) : hour - 1 }}
-        </div>
-      </div>
-      <div class="time-picker-separator"><p>:</p></div>
-      <div class="minute-container">
-        <div
-          v-for="minute in 60"
-          :key="minute"
-          class="time-indicator"
-          :class="{
-            active:
-              time.format('mm') ===
-              ((minute - 1).toString().length === 1
-                ? '0' + (minute - 1)
-                : (minute - 1).toString()),
-          }"
-          @click="minuteSelected(minute - 1)"
-        >
-          {{
-            (minute - 1).toString().length === 1
-              ? '0' + (minute - 1)
-              : minute - 1
-          }}
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
+<template><div></div></template>
 
-<script>
-import Vue from 'vue';
+<!--<template>-->
+<!--  <div ref="calendar-time" class="cyp" :style="{ height }">-->
+<!--    <div class="time-picker" :style="{ height }">-->
+<!--      <div class="hour-container">-->
+<!--        <div-->
+<!--          v-for="hour in 24"-->
+<!--          :key="hour"-->
+<!--          class="time-indicator"-->
+<!--          :class="{-->
+<!--            active:-->
+<!--              time.format('HH') ===-->
+<!--              ((hour - 1).toString().length === 1-->
+<!--                ? '0' + (hour - 1)-->
+<!--                : (hour - 1).toString()),-->
+<!--          }"-->
+<!--          @click="hourSelected(hour - 1)"-->
+<!--        >-->
+<!--          {{ (hour - 1).toString().length === 1 ? '0' + (hour - 1) : hour - 1 }}-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="time-picker-separator"><p>:</p></div>-->
+<!--      <div class="minute-container">-->
+<!--        <div-->
+<!--          v-for="minute in 60"-->
+<!--          :key="minute"-->
+<!--          class="time-indicator"-->
+<!--          :class="{-->
+<!--            active:-->
+<!--              time.format('mm') ===-->
+<!--              ((minute - 1).toString().length === 1-->
+<!--                ? '0' + (minute - 1)-->
+<!--                : (minute - 1).toString()),-->
+<!--          }"-->
+<!--          @click="minuteSelected(minute - 1)"-->
+<!--        >-->
+<!--          {{-->
+<!--            (minute - 1).toString().length === 1-->
+<!--              ? '0' + (minute - 1)-->
+<!--              : minute - 1-->
+<!--          }}-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</template>-->
 
-export default Vue.extend({
-  name: 'DatePickerTime',
-  props: {
-    time: {
-      required: true,
-      type: Object,
-    },
-    height: {
-      required: true,
-      type: String,
-    },
-  },
-  setup(props, context) {
-    const hourSelected = (hour) => {
-      const newTime = props.time.clone().set({ hour });
-      context.emit('input', newTime);
-    };
+<!--<script>-->
+<!--import Vue from 'vue';-->
 
-    const minuteSelected = (minute) => {
-      const newTime = props.time.clone().set({ minute });
-      context.emit('input', newTime);
-    };
+<!--export default Vue.extend({-->
+<!--  name: 'DatePickerTime',-->
+<!--  props: {-->
+<!--    time: {-->
+<!--      required: true,-->
+<!--      type: Object,-->
+<!--    },-->
+<!--    height: {-->
+<!--      required: true,-->
+<!--      type: String,-->
+<!--    },-->
+<!--  },-->
+<!--  setup(props, context) {-->
+<!--    const hourSelected = (hour) => {-->
+<!--      const newTime = props.time.clone().set({ hour });-->
+<!--      context.emit('input', newTime);-->
+<!--    };-->
 
-    return {
-      hourSelected,
-      minuteSelected,
-    };
-  },
-});
-</script>
+<!--    const minuteSelected = (minute) => {-->
+<!--      const newTime = props.time.clone().set({ minute });-->
+<!--      context.emit('input', newTime);-->
+<!--    };-->
 
-<style scoped lang="scss">
-@import '@/components/pickers/date-picker/DatePicker';
-@import '@/components/pickers/date-picker/PickerOverlays';
+<!--    return {-->
+<!--      hourSelected,-->
+<!--      minuteSelected,-->
+<!--    };-->
+<!--  },-->
+<!--});-->
+<!--</script>-->
 
-.cyp {
-  padding: 10px 0;
-  top: 0;
-}
+<!--<style scoped lang="scss">-->
+<!--@import '@/components/pickers/date-picker/DatePicker';-->
+<!--@import '@/components/pickers/date-picker/PickerOverlays';-->
 
-.time-picker {
-  display: flex;
+<!--.cyp {-->
+<!--  padding: 10px 0;-->
+<!--  top: 0;-->
+<!--}-->
 
-  & > div {
-    min-height: 100%;
-  }
+<!--.time-picker {-->
+<!--  display: flex;-->
 
-  & > .hour-container {
-    flex: 0 0 48%;
-  }
+<!--  & > div {-->
+<!--    min-height: 100%;-->
+<!--  }-->
 
-  & > .time-picker-separator {
-    flex: 0 0 4%;
-    display: flex;
-    align-items: center;
-  }
+<!--  & > .hour-container {-->
+<!--    flex: 0 0 48%;-->
+<!--  }-->
 
-  & > .minute-container {
-    flex: 0 0 48%;
-  }
-}
+<!--  & > .time-picker-separator {-->
+<!--    flex: 0 0 4%;-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--  }-->
 
-.hour-container,
-.minute-container,
-.time-picker-separator {
-  height: 324px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+<!--  & > .minute-container {-->
+<!--    flex: 0 0 48%;-->
+<!--  }-->
+<!--}-->
 
-  overflow-y: scroll;
+<!--.hour-container,-->
+<!--.minute-container,-->
+<!--.time-picker-separator {-->
+<!--  height: 324px;-->
+<!--  display: flex;-->
+<!--  flex-direction: column;-->
+<!--  align-items: center;-->
 
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+<!--  overflow-y: scroll;-->
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
+<!--  -ms-overflow-style: none;-->
+<!--  scrollbar-width: none;-->
 
-.time-picker-separator {
-  justify-content: center;
-  margin-bottom: 0;
-  font-size: 18px;
-  font-weight: bold;
-}
+<!--  &::-webkit-scrollbar {-->
+<!--    display: none;-->
+<!--  }-->
+<!--}-->
 
-.time-indicator {
-  width: 100%;
-  padding: 10px;
-  transition: background-color ease 0.5s;
-  text-align: center;
-  border-radius: 5px;
+<!--.time-picker-separator {-->
+<!--  justify-content: center;-->
+<!--  margin-bottom: 0;-->
+<!--  font-size: 18px;-->
+<!--  font-weight: bold;-->
+<!--}-->
 
-  &:hover {
-    cursor: pointer;
-    background-color: #7367f0;
-    color: white;
-  }
-}
+<!--.time-indicator {-->
+<!--  width: 100%;-->
+<!--  padding: 10px;-->
+<!--  transition: background-color ease 0.5s;-->
+<!--  text-align: center;-->
+<!--  border-radius: 5px;-->
 
-.active {
-  background-color: #7367f0;
-  color: white;
-}
-</style>
+<!--  &:hover {-->
+<!--    cursor: pointer;-->
+<!--    background-color: #7367f0;-->
+<!--    color: white;-->
+<!--  }-->
+<!--}-->
+
+<!--.active {-->
+<!--  background-color: #7367f0;-->
+<!--  color: white;-->
+<!--}-->
+<!--</style>-->
