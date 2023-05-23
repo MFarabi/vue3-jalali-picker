@@ -79,15 +79,7 @@
                 }"
                 :style="{
                   color:
-                    item.date === (range && range.start.format(defaultGeorgianFormat)) ||
-                    item.date === (range && range.end.format(defaultGeorgianFormat)) ||
-                    (selectedTime && item.date === selectedTime.format('YYYY-MM-DD')) ||
-                    item.events.includes('defaultDate') ||
-                    !item.events.includes('other-month')
-                      ? options!.colors!.textColor
-                      : item.events.includes('other-month')
-                      ? options!.colors!.grayedOutTextColor
-                      : 'black',
+                    calcPickerDateColor(item.date, item.events),
                   backgroundColor:
                     item.date === (range && range.start.format(defaultGeorgianFormat)) ||
                     item.date === (range && range.end.format(defaultGeorgianFormat)) ||
@@ -229,6 +221,7 @@ const initializeRows = () => {
 };
 
 const onTimeSelect = (time: Moment) => {
+  selectedTime.value = time
   emit("input", time);
   showTimePicker.value = false;
 };
@@ -298,6 +291,19 @@ const updateClasses = () => {
   } catch (e) {
     console.error("error on update classes in general calendar: ", e);
   }
+};
+
+const calcPickerDateColor = (date: string, events: string[]) => {
+  if (
+    (props.range &&
+      moment(date).isAfter(props.range.start.startOf("day")) &&
+      moment(date).isBefore(props.range.end.endOf("day"))) ||
+    date === selectedTime.value.format(defaultGeorgianFormat) ||
+    events.includes("defaultDate")
+  ) {
+    return props.options.colors?.selectedText!;
+  } else if (events.includes("other-month")) return props.options.colors?.grayedOutTextColor;
+  else return props.options.colors?.textColor!;
 };
 
 onMounted(() => {

@@ -1,0 +1,45 @@
+.cyp {
+  z-index: 2;
+  position: absolute;
+  top: -327px;
+  min-width: 298px !important;
+  height: 324px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background-color: white;
+}
+.dark-layout .cyp {
+  background-color: #2a3245;
+}
+.cy-header {
+  height: 50px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 18px;
+  padding-right: 18px;
+  font-size: 16px;
+}
+.cy-months {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.cy-months .cy-each-month {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  height: 50px;
+}
+.cy-selected {
+  border: 1px solid #7367f0;
+  color: #7367f0;
+  border-radius: 4px;
+}
