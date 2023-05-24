@@ -5,11 +5,6 @@ import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // resolve: {
-  //   alias: {
-  //     "@/": new URL("./src/", import.meta.url).pathname,
-  //   },
-  // },
   plugins: [vue(), cssInjectedByJsPlugin()],
   build: {
     lib: {

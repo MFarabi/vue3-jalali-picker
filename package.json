@@ -1,6 +1,9 @@
 {
+  "name": "@jalali-vue/vue3-datepicker",
   "version": "1.0.2",
   "author": "Mansour Farabi mansour.farabi@gmail.com",
+  "description": "need to get update",
+  "license": "MIT",
   "files": [
     "dist"
   ],
@@ -32,7 +35,6 @@
     "preview": "vite preview",
     "test": "exit 0"
   },
-  "name": "@jalali-vue/vue3-datepicker",
   "type": "module",
   "dependencies": {
     "@vueuse/core": "^10.1.2",
