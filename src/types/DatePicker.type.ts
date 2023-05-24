@@ -1,18 +1,18 @@
 import { Moment } from "jalali-moment";
 
-export interface IDatePickerDays {
+export type IDatePickerDays = {
   wd: string;
   day: string;
   date: string;
   events: string[];
   jalali: string;
-}
+};
 
 export type DatePickerWeek = Array<IDatePickerDays>;
 
 export type DatePickerMonth = Array<DatePickerWeek>;
 
-export interface IDatePickerConfig {
+export type IDatePickerConfig = {
   minDate?: Moment;
   maxDate?: Moment;
   colors?: {
@@ -22,9 +22,9 @@ export interface IDatePickerConfig {
     textColor?: string;
     grayedOutTextColor?: string;
   };
-}
+};
 
-export interface IDatePickerProps {
+export type IDatePickerProps = {
   withoutTime?: boolean;
   /**
    * 👉🏻 time selection used when timepicker called withoutTime
@@ -36,4 +36,4 @@ export interface IDatePickerProps {
   defaultDate?: Moment;
   options?: IDatePickerConfig;
   range?: { start: Moment; end: Moment };
-}
+};

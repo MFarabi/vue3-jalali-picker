@@ -30,7 +30,6 @@ export const datePickerDefaultConfig: IDatePickerConfig = {
     textColor: "black",
     grayedOutTextColor: "gray",
     primaryColor: "#7367f0",
-    secondaryColor: "#7367f0aa",
     backgroundColor: "white",
   },
 };

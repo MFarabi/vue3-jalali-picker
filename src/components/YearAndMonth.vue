@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import moment from "jalali-moment";
-import TheChevron from "./icons/TheChevron.vue";
+import TheChevron from "../components/icons/TheChevron.vue";
 import { PERSIAN_MONTHS } from "../utils/constants";
 import { IYearAndMonthProps } from "../types/YearAndMonthPicker.type";
 import { onMounted, ref, watch } from "vue";

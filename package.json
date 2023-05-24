@@ -1,22 +1,54 @@
 {
-  "name": "vue3-jalali-picker",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.0.2",
+  "author": "Mansour Farabi mansour.farabi@gmail.com",
+  "files": [
+    "dist"
+  ],
+  "private": false,
+  "main": "./dist/date-picker.umd.js",
+  "module": "./dist/date-picker.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/date-picker.es.js",
+      "require": "./dist/date-picker.umd.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "types": "./dist/types/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "@MFarabi:registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MFarabi/vue3-jalali-picker"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "build": "vite build && vue-tsc --emitDeclarationOnly && mv dist/src dist/types",
+    "preserve": "vite build",
+    "serve": "vite preview --port 5050",
+    "typecheck": "vue-tsc --noEmit",
+    "preview": "vite preview",
+    "test": "exit 0"
   },
+  "name": "@jalali-vue/vue3-datepicker",
+  "type": "module",
   "dependencies": {
     "@vueuse/core": "^10.1.2",
     "jalali-moment": "^3.3.11",
     "vue": "^3.3.4"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.1",
+    "@types/node": "^20.2.3",
     "@vitejs/plugin-vue": "^4.2.3",
+    "path": "^0.12.7",
+    "rollup-plugin-typescript-paths": "^1.4.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.2",
+    "vite-plugin-css-injected-by-js": "^3.1.1",
+    "vite-plugin-dts": "^2.3.0",
     "vue-tsc": "^1.4.2"
   }
 }

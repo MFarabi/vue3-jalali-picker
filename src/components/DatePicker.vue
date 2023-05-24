@@ -7,7 +7,13 @@
       :value="!!mainMoment ? mainMoment.format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')"
       @input="onChangeYearPicker"
     />
-    <TimePicker v-if="showTimePicker" :time="selectedTime" :height="height + 'px'" @input="onTimeSelect" />
+    <TimePicker
+      v-if="showTimePicker"
+      :time="selectedTime"
+      :height="height + 'px'"
+      active-color="green"
+      @input="onTimeSelect"
+    />
     <div class="calendar-sm-header">
       <button class="btn d-flex justify-content-center" type="button" @click="decreaseMonth">
         <TheChevron class="rotate" />
@@ -104,9 +110,9 @@
 import moment, { Moment } from "jalali-moment";
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 
-import TheChevron from "./icons/TheChevron.vue";
-import YearAndMonth from "./YearAndMonth.vue";
-import TimePicker from "./TimePicker.vue";
+import TheChevron from "../components/icons/TheChevron.vue";
+import YearAndMonth from "../components/YearAndMonth.vue";
+import TimePicker from "../components/TimePicker.vue";
 
 import { IDatePickerProps, DatePickerMonth, IDatePickerDays } from "../types/DatePicker.type";
 import changeLocale from "../filters/changeLocale.filter";
@@ -221,7 +227,7 @@ const initializeRows = () => {
 };
 
 const onTimeSelect = (time: Moment) => {
-  selectedTime.value = time
+  selectedTime.value = time;
   emit("input", time);
   showTimePicker.value = false;
 };

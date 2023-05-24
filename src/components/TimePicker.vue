@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { Moment } from "jalali-moment";
 
-const props = defineProps<{ height: string; time: Moment }>();
+const props = defineProps<{ height: string; time: Moment; activeColor: string }>();
 
 const emit = defineEmits<{
   (e: "input", value: Moment): void;
