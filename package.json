@@ -1,11 +1,12 @@
 {
   "name": "@jalali-vue/vue3-datepicker",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "author": "Mansour Farabi mansour.farabi@gmail.com",
   "description": "need to get update",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "components/InputDatePicker.vue"
   ],
   "private": false,
   "main": "./dist/date-picker.umd.js",
@@ -33,10 +34,12 @@
     "serve": "vite preview --port 5050",
     "typecheck": "vue-tsc --noEmit",
     "preview": "vite preview",
-    "test": "exit 0"
+    "test": "exit 0",
+    "publish": "npm publish --access public"
   },
   "type": "module",
   "dependencies": {
+    "@vueuse/components": "^10.1.2",
     "@vueuse/core": "^10.1.2",
     "jalali-moment": "^3.3.11",
     "vue": "^3.3.4"
