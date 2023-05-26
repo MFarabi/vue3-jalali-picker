@@ -31,7 +31,7 @@ export type IDatePickerProps = {
    * start will return start of the day, end will return end of the day
    */
   timeSelection?: "start" | "end";
-  value?: Moment;
+  modelValue: Moment | null | undefined;
   locale?: "en" | "fa";
   defaultDate?: Moment;
   options?: IDatePickerConfig;

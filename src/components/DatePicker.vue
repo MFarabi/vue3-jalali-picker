@@ -129,7 +129,6 @@ const props = withDefaults(defineProps<IDatePickerProps>(), {
   locale: "en",
   range: undefined,
   withoutTime: false,
-  value: () => moment(),
   defaultDate: undefined,
   timeSelection: undefined,
   options: () => datePickerDefaultConfig,
@@ -142,8 +141,8 @@ const emit = defineEmits<{
 const datePicker = ref<HTMLDivElement | null>(null);
 
 const rows = ref<DatePickerMonth>([]);
-const mainMoment = ref(moment(props.value ?? moment()));
-const selectedTime = ref(moment(props.value ?? moment()));
+const mainMoment = ref(moment(props.modelValue ?? moment()));
+const selectedTime = ref(moment(props.modelValue ?? moment()));
 const showYearPicker = ref(false);
 const height = ref(100);
 const showTimePicker = ref(false);
@@ -320,8 +319,8 @@ onMounted(() => {
     moment(selectedTime.value!).isBefore(props.options.minDate)
   ) {
     emit("input", timeToSelect(moment(props.options.minDate).add(1, "minute")));
-  } else if (moment(props.value).isValid()) {
-    selectedTime.value = moment(props.value);
+  } else if (moment(props.modelValue!).isValid()) {
+    selectedTime.value = moment(props.modelValue!);
   } else {
     selectedTime.value = moment();
   }
@@ -343,13 +342,15 @@ watch(
 );
 
 watch(
-  () => props.value,
+  () => props.modelValue,
   () => {
-    if (moment(props.value).isValid()) {
-      selectedTime.value = moment(props.value);
+    if (props.modelValue && props.modelValue.format()) {
+      selectedTime.value = moment(props.modelValue);
     } else {
       selectedTime.value = moment();
     }
+    console.log("change");
+
     initializeRows();
   }
 );

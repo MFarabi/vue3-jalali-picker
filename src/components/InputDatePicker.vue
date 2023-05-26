@@ -1,8 +1,15 @@
 <template>
   <div class="position-relative">
-    <BInputGroup :id="componentId">
-      <BFormInput
+    <!-- <BInputGroup :id="componentId"> -->
+    <div style="color: white">
+      <h3>PickerId: {{ pickerId }}</h3>
+      <h3>ComponentId: {{ componentId }}</h3>
+      <h3>{{ pickerValue && pickerValue.format("YYYY-MM-DD") }}</h3>
+    </div>
+    <div :id="componentId">
+      <input
         ref="input"
+        :id="inputId"
         :value="formValue"
         class="datepicker-input"
         :state="!isValidInput ? false : null"
@@ -10,10 +17,10 @@
         @blur="onFormInput"
         @focus="show = true"
       />
-      <BInputGroupAppend v-if="removable && (inputValue || pickerValue)" is-text>
+      <!-- <BInputGroupAppend v-if="removable && (inputValue || pickerValue)" is-text>
         <feather-icon id="date-picker-close-button" class="cursor-pointer" icon="XIcon" size="16" @click="clearInput" />
-      </BInputGroupAppend>
-      <BInputGroupAppend v-if="!hideCalendarIcon" is-text>
+      </BInputGroupAppend> -->
+      <!-- <BInputGroupAppend v-if="!hideCalendarIcon" is-text>
         <feather-icon
           id="date-picker-close-button"
           class="cursor-pointer"
@@ -21,13 +28,14 @@
           size="16"
           @click="show = true"
         />
-      </BInputGroupAppend>
-    </BInputGroup>
+      </BInputGroupAppend> -->
+      <!-- </BInputGroup> -->
+    </div>
     <Transition name="fade">
       <DatePicker
         v-if="show"
         v-model="pickerValue"
-        v-click-outside="outsideClicked"
+        v-on-click-outside="outsideClicked"
         :locale="locale"
         :options="options"
         :range="range"
@@ -36,6 +44,7 @@
         :default-date="defaultDate"
         style="box-shadow: 0 0 5px gray"
         @input="onInput"
+        :id="pickerId"
       />
     </Transition>
   </div>
@@ -43,11 +52,13 @@
 
 <script lang="ts" setup>
 import TheChevron from "../components/icons/TheChevron.vue";
+import { vOnClickOutside } from "@vueuse/components";
 import DatePicker from "./DatePicker.vue";
 import moment, { Moment } from "jalali-moment";
 import generateId from "../utils/uniqueId";
 import { IInputeDatePickerProps } from "../types/InputDatePicker.type";
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, withDirectives } from "vue";
+const datePickerInput = ref<HTMLDivElement | null>(null);
 
 const props = defineProps<IInputeDatePickerProps>();
 
@@ -55,15 +66,18 @@ const emit = defineEmits<{
   (e: "input", value: Moment | null): void;
 }>();
 
-const pickerValue = ref<Moment | null>(moment(moment(props.value).isValid() ? props.value : new Date()));
+const pickerValue = ref<Moment | null>(moment(moment(props.modelValue!).isValid() ? props.modelValue! : new Date()));
 const inputValue = ref<string | null>(
-  moment(props.value ?? new Date())
+  moment(props.modelValue! ?? new Date())
     .toDate()
     .toISOString()
 );
 const show = ref(false);
 const isValidInput = ref(true);
 const componentId = ref(generateId());
+const pickerId = ref("picker-" + componentId.value);
+const inputId = ref("input-" + componentId.value);
+const input = ref<HTMLInputElement>();
 
 const isPersian = () => props.locale === "fa";
 
@@ -84,16 +98,19 @@ const format = () => {
   return isPersian() ? "jYYYY-jMM-jDD:HH-mm" : "YYYY-MM-DD:HH-mm";
 };
 
-const validateInput = (event: string) => {
-  isValidInput.value = moment(event, format()).clone().isValid();
+const validateInput = (event: Event) => {
+  // @ts-ignore
+  isValidInput.value = moment(event.target!.value, format()).clone().isValid();
 };
 
 // used to handle user input in input tag
-const onFormInput = (event: InputEvent) => {
+const onFormInput = (event: FocusEvent) => {
   if (event && event.target) {
-    // @ts-ignore
-    inputValue.value = moment(event.target.value, format()).toISOString();
-    pickerValue.value = moment(inputValue.value);
+    try {
+      // @ts-ignore
+      inputValue.value = moment(event.target.value, format()).toISOString();
+      pickerValue.value = moment(inputValue.value);
+    } catch (e) {}
   }
 };
 
@@ -107,26 +124,32 @@ const clearInput = () => {
 };
 
 function outsideClicked(event: any) {
-  if (
-    event &&
-    event.srcElement &&
-    event.srcElement.offsetParent &&
-    event.srcElement.offsetParent.id !== componentId.value
-  ) {
-    show.value = false;
-  }
-  if (
-    event.srcElement.id === "date-picker-close-button" ||
-    (event.srcElement.nearestViewportElement &&
-      event.srcElement.nearestViewportElement.id === "date-picker-close-button") ||
-    (event.srcElement.farthestViewportElement &&
-      event.srcElement.farthestViewportElement.id === "date-picker-close-button") ||
-    (event.srcElement.classList && event.srcElement.classList.contains("datepicker-input"))
-  ) {
-    return;
-  }
+  // if (
+  //   event &&
+  //   event.srcElement &&
+  //   event.srcElement.offsetParent &&
+  //   event.srcElement.offsetParent.id !== componentId.value
+  // ) {
+  //   show.value = false;
+  // }
+  // if (
+  //   event.srcElement.id === "date-picker-close-button" ||
+  //   (event.srcElement.nearestViewportElement &&
+  //     event.srcElement.nearestViewportElement.id === "date-picker-close-button") ||
+  //   (event.srcElement.farthestViewportElement &&
+  //     event.srcElement.farthestViewportElement.id === "date-picker-close-button") ||
+  //   (event.srcElement.classList && event.srcElement.classList.contains("datepicker-input"))
+  // ) {
+  //   return;
+  // }
   if (event.srcElement.classList.contains("cy-each-month")) return;
   if (event.srcElement.classList.contains("time-indicator")) return;
+  if (
+    event.srcElement.id === componentId.value ||
+    event.srcElement.id === pickerId.value ||
+    event.srcElement.id === inputId.value
+  )
+    return;
   show.value = false;
 }
 
@@ -152,8 +175,8 @@ watch(
       if (
         props.options &&
         props.options.minDate &&
-        props.value &&
-        props.value.isBefore(moment(props.options.minDate).clone().add(1, "minute"))
+        props.modelValue &&
+        props.modelValue.isBefore(moment(props.options.minDate).clone().add(1, "minute"))
       ) {
         inputValue.value = moment(props.options.minDate).add(1, "minute").toISOString();
         emit("input", timeToSelect(moment(props.options.minDate).add(1, "minute")));
@@ -196,11 +219,11 @@ watch(
 );
 
 watch(
-  () => props.value,
+  () => props.modelValue,
   () => {
-    if (!moment(props.value).isValid()) return;
+    if (!moment(props.modelValue!).isValid()) return;
     if (inputValue.value && inputValue.value.length === 10) {
-      inputValue.value = !props.value ? null : props.value.toISOString();
+      inputValue.value = !props.modelValue ? null : props.modelValue.toISOString();
     }
   }
 );
