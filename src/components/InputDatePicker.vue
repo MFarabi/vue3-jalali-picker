@@ -1,12 +1,11 @@
 <template>
   <div class="position-relative">
-    <!-- <BInputGroup :id="componentId"> -->
     <div style="color: white">
       <h3>PickerId: {{ pickerId }}</h3>
       <h3>ComponentId: {{ componentId }}</h3>
       <h3>{{ pickerValue && pickerValue.format("YYYY-MM-DD") }}</h3>
     </div>
-    <div :id="componentId">
+    <div class="input-with-buttons" :id="componentId" style="width: 350px">
       <input
         ref="input"
         :id="inputId"
@@ -16,20 +15,17 @@
         @input="validateInput"
         @blur="onFormInput"
         @focus="show = true"
+        :style="{ paddingRight: inputPaddingRight }"
       />
-      <!-- <BInputGroupAppend v-if="removable && (inputValue || pickerValue)" is-text>
-        <feather-icon id="date-picker-close-button" class="cursor-pointer" icon="XIcon" size="16" @click="clearInput" />
-      </BInputGroupAppend> -->
-      <!-- <BInputGroupAppend v-if="!hideCalendarIcon" is-text>
-        <feather-icon
-          id="date-picker-close-button"
-          class="cursor-pointer"
-          icon="CalendarIcon"
-          size="16"
-          @click="show = true"
-        />
-      </BInputGroupAppend> -->
-      <!-- </BInputGroup> -->
+      <button class="button button-calendar" v-if="!hideCalendarIcon" @click="show = true"><TheCalendar /></button>
+      <button
+        class="button button-close"
+        v-if="removable && (inputValue || pickerValue)"
+        :style="{ right: hideCalendarIcon ? '0px' : '40px' }"
+        @click="clearInput"
+      >
+        <TheCloseButton />
+      </button>
     </div>
     <Transition name="fade">
       <DatePicker
@@ -51,14 +47,14 @@
 </template>
 
 <script lang="ts" setup>
-import TheChevron from "../components/icons/TheChevron.vue";
+import TheCalendar from "./icons/TheCalendar.vue";
+import TheCloseButton from "./icons/TheCloseButton.vue";
 import { vOnClickOutside } from "@vueuse/components";
 import DatePicker from "./DatePicker.vue";
 import moment, { Moment } from "jalali-moment";
 import generateId from "../utils/uniqueId";
 import { IInputeDatePickerProps } from "../types/InputDatePicker.type";
 import { computed, ref, watch, withDirectives } from "vue";
-const datePickerInput = ref<HTMLDivElement | null>(null);
 
 const props = defineProps<IInputeDatePickerProps>();
 
@@ -80,6 +76,12 @@ const inputId = ref("input-" + componentId.value);
 const input = ref<HTMLInputElement>();
 
 const isPersian = () => props.locale === "fa";
+
+const inputPaddingRight = computed(() => {
+  if (!props.hideCalendarIcon && props.removable) return "80px";
+  else if (!props.hideCalendarIcon || props.removable) return "40px";
+  else return "0px";
+});
 
 const timeToSelect = (time: Moment) => {
   if (!props.withoutTime) return moment(time);
@@ -124,24 +126,6 @@ const clearInput = () => {
 };
 
 function outsideClicked(event: any) {
-  // if (
-  //   event &&
-  //   event.srcElement &&
-  //   event.srcElement.offsetParent &&
-  //   event.srcElement.offsetParent.id !== componentId.value
-  // ) {
-  //   show.value = false;
-  // }
-  // if (
-  //   event.srcElement.id === "date-picker-close-button" ||
-  //   (event.srcElement.nearestViewportElement &&
-  //     event.srcElement.nearestViewportElement.id === "date-picker-close-button") ||
-  //   (event.srcElement.farthestViewportElement &&
-  //     event.srcElement.farthestViewportElement.id === "date-picker-close-button") ||
-  //   (event.srcElement.classList && event.srcElement.classList.contains("datepicker-input"))
-  // ) {
-  //   return;
-  // }
   if (event.srcElement.classList.contains("cy-each-month")) return;
   if (event.srcElement.classList.contains("time-indicator")) return;
   if (
@@ -162,8 +146,6 @@ watch(
       }
       if (!moment(inputValue.value!).isValid()) return;
       pickerValue.value = moment(inputValue.value!);
-      //   onFormInput(inputValue.value!);
-      // eslint-disable-next-line no-empty
     } catch (e) {}
   }
 );
@@ -181,7 +163,6 @@ watch(
         inputValue.value = moment(props.options.minDate).add(1, "minute").toISOString();
         emit("input", timeToSelect(moment(props.options.minDate).add(1, "minute")));
       }
-      // eslint-disable-next-line no-empty
     } catch (e) {}
   }
 );
@@ -213,7 +194,6 @@ watch(
       }
       emit("input", timeToSelect(pickerValue.value!));
       isValidInput.value = true;
-      // eslint-disable-next-line no-empty
     } catch (e) {}
   }
 );
@@ -251,9 +231,54 @@ watch(
   opacity: 0;
 }
 
+.input-with-buttons {
+  display: inline-block;
+  position: relative;
+}
+
+.input-with-buttons input {
+  padding-right: 100px;
+}
+
+.input-with-buttons .button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 30px;
+  width: 40px;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button-calendar {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
 input:read-only {
   background-color: initial;
   border-color: initial;
   -webkit-tap-highlight-color: revert;
+}
+
+input {
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  offset: 0;
+  height: 30px;
+}
+
+input:focus {
+  outline-width: 0;
 }
 </style>

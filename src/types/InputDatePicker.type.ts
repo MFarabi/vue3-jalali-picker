@@ -1,6 +1,6 @@
 import { IDatePickerProps } from "./DatePicker.type";
 
 export type IInputeDatePickerProps = IDatePickerProps & {
-  removable: boolean;
-  hideCalendarIcon: boolean;
+  removable?: boolean;
+  hideCalendarIcon?: boolean;
 };

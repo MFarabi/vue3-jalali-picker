@@ -2,11 +2,11 @@
   <div class="container">
     <div>
       <InputDatePicker
+        hide-calendar-icon
         v-model="inputeDate"
         :default-date="moment()"
         :locale="'en'"
-        :hide-calendar-icon="false"
-        :removable="false"
+        :removable="true"
         :options="{
           colors: { primaryColor: 'purple', textColor: 'black', grayedOutTextColor: 'gray', selectedText: 'white' },
         }"
@@ -31,7 +31,7 @@ import InputDatePicker from "./components/InputDatePicker.vue";
 import moment from "jalali-moment";
 
 const date = ref(moment());
-const inputeDate = ref(moment().toISOString());
+const inputeDate = ref(moment());
 </script>
 
 <style scoped>
